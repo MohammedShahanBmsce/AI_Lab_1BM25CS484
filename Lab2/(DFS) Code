@@ -1,0 +1,57 @@
+print("Mohammed Shahan")
+print("1BM25CS484")
+
+
+def dfs(start, goal):
+    stack = [(start, [start])]
+    visited = set()
+
+    while stack:
+        state, path = stack.pop()
+
+        if state == goal:
+            print("\nSolution found in",
+                  len(path) - 1, "steps:")
+            for i, s in enumerate(path):
+                print("\n--- Step", i, "---")
+                print(list(s[:3]))
+                print(list(s[3:6]))
+                print(list(s[6:]))
+            return
+
+        if state in visited:
+            continue
+
+        visited.add(state)
+        zero = state.index(0)
+        r, c = zero // 3, zero % 3
+
+        # Up, Down, Left, Right
+        moves = [(-1, 0), (1, 0),
+                 (0, -1), (0, 1)]
+
+        for dr, dc in moves:
+            nr, nc = r + dr, c + dc
+
+            if 0 <= nr < 3 and 0 <= nc < 3:
+                new = list(state)
+                j = nr * 3 + nc
+
+                new[zero], new[j] = new[j], new[zero]
+                new = tuple(new)
+
+                if new not in visited:
+                    stack.append((new, path + [new]))
+
+    print("Solution not found")
+
+
+start = (1, 2, 3,
+         0, 4, 6,
+         7, 5, 8)
+
+goal = (1, 2, 3,
+        4, 5, 6,
+        7, 8, 0)
+
+dfs(start, goal)
