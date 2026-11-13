@@ -1,0 +1,46 @@
+
+# Forward Chaining in First Order Logic
+
+# Initial facts
+KB = {
+    "American(Robert)",
+    "Missile(T1)",
+    "Owns(A,T1)",
+    "Enemy(A,America)"
+}
+
+print("Initial Facts:")
+for fact in sorted(KB):
+    print(fact)
+
+# Rule 1: Missile(x) -> Weapon(x)
+if "Missile(T1)" in KB:
+    KB.add("Weapon(T1)")
+    print("\nDerived: Weapon(T1)")
+
+# Rule 2: Missile(x) AND Owns(A,x) -> Sells(Robert,x,A)
+if "Missile(T1)" in KB and "Owns(A,T1)" in KB:
+    KB.add("Sells(Robert,T1,A)")
+    print("Derived: Sells(Robert,T1,A)")
+
+# Rule 3: Enemy(x,America) -> Hostile(x)
+if "Enemy(A,America)" in KB:
+    KB.add("Hostile(A)")
+    print("Derived: Hostile(A)")
+
+# Rule 4: American(p) AND Weapon(q) AND
+# Sells(p,q,r) AND Hostile(r) -> Criminal(p)
+
+if ("American(Robert)" in KB and
+    "Weapon(T1)" in KB and
+    "Sells(Robert,T1,A)" in KB and
+    "Hostile(A)" in KB):
+
+    KB.add("Criminal(Robert)")
+    print("\nConclusion: Criminal(Robert)")
+    print("Robert is a CRIMINAL.")
+
+else:
+    print("\nRobert is NOT PROVED criminal.")
+print("\nMohammed Shahan")
+print("1BM25CS484")
